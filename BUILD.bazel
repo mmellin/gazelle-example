@@ -4,6 +4,7 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 # gazelle:go_naming_convention import_alias
 # gazelle:proto default
 # gazelle:go_generate_proto true
+# gazelle:go_grpc_compilers @io_bazel_rules_go//proto:go_grpc,@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-grpc-gateway:go_gen_grpc_gateway
 gazelle(name = "gazelle")
 
 gazelle(

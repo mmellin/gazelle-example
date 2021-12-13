@@ -8,4 +8,3 @@ def go_dependencies():
         sum = "h1:d3jFA1JzkFVXN61mrTKGI4NzujCyMmjiEBGx53EyDyA=",
         version = "v0.0.0-20210217072139-fde78c91cf17",
     )
-   

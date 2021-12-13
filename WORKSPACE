@@ -51,3 +51,14 @@ http_archive(
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
 protobuf_deps()
+
+http_archive(
+    name = "com_github_grpc_ecosystem_grpc_gateway_v2",
+    sha256 = "e30f2aa357e4cf3dc9b347ee5703ce0346f05b127a10f3da5b359748e01c65f1",
+    strip_prefix = "grpc-gateway-2.7.1",
+    urls = ["https://github.com/grpc-ecosystem/grpc-gateway/archive/refs/tags/v2.7.1.tar.gz"],
+)
+
+load("@com_github_grpc_ecosystem_grpc_gateway_v2//:repositories.bzl", grpc_gateway_go_deps = "go_repositories")
+
+grpc_gateway_go_deps()
