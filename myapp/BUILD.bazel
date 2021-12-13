@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "myapp_lib",
+    srcs = ["main.go"],
+    importpath = "example.com/example/myapp",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//myapp/proto:example",
+        "@com_github_golang_protobuf//proto:go_default_library",
+        "@com_github_golang_protobuf//ptypes:go_default_library_gen",
+    ],
+)
+
+go_binary(
+    name = "myapp",
+    embed = [":myapp_lib"],
+    visibility = ["//visibility:public"],
+)

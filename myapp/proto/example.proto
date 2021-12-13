@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package example;
+option go_package = "example.com/example/myapp/proto/example";
+
+import "google/protobuf/any.proto";
+import "google/api/annotations.proto";
+
+message Thing {
+  string name = 1;
+  google.protobuf.Any payload = 2;
+}
+
+message MaskTest {
+  Message message = 1;
+  Value value = 2;
+  repeated Value values = 3;
+  MaskTest child = 4;
+}
+
+message Message {
+  string name = 1;
+  string id = 2;
+}
+
+message Value {
+  oneof value {
+    string string_val = 1;
+    int64 int_val = 2;
+  }
+  Message sub = 3;
+}
+
+message GetRequest {
+  int32 user_id = 1;
+}
+
+message Mandate {
+  int32 data_id = 1;
+}
+
+service MyService {
+  rpc GetNewData(GetRequest) returns (Mandate) {
+    option (google.api.http) = {
+      post: "/v1/data"
+      body: "*"
+    };
+  }
+}
