@@ -14,10 +14,7 @@ proto_library(
 
 go_proto_library(
     name = "example_go_proto",
-    compilers = [
-        "@io_bazel_rules_go//proto:go_grpc",
-        "@com_github_grpc_ecosystem_grpc_gateway//protoc-gen-grpc-gateway:go_gen_grpc_gateway",
-    ],
+    compilers = ["@io_bazel_rules_go//proto:go_grpc"],
     importpath = "example.com/example/myapp/proto/example",
     proto = ":example_proto",
     visibility = ["//visibility:public"],
