@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"example.com/example/myapp/proto/example"
+	examplepb "example.com/gazelle-example/myapp/proto/v1"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/ptypes"
@@ -23,18 +23,18 @@ payload: <
 */
 
 func main() {
-	v := &example.Value{
-		Value: &example.Value_IntVal{
+	v := &examplepb.Value{
+		Value: &examplepb.Value_IntVal{
 			IntVal: 100,
 		},
-		Sub: &example.Message{
+		Sub: &examplepb.Message{
 			Name: "foo",
 			Id:   "bar",
 		},
 	}
 	respAny, _ := ptypes.MarshalAny(v)
 
-	pb := &example.Thing{
+	pb := &examplepb.Thing{
 		Payload: respAny,
 	}
 	fmt.Println(pb)

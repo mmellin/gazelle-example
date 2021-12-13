@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@com_github_bazel_gomock//:gomock.bzl", "gomock")
+
+gomock(
+    name = "gen_mock",
+    out = "mock_my_service_client.go",
+    interfaces = ["MyServiceClient"],
+    library = "//myapp/proto/v1:go_default_library",
+    package = "mock",
+    self_package = "example.com/gazelle-example/myapp/proto/v1/mock",
+)
+
+go_library(
+    name = "mock",
+    srcs = ["mock_my_service_client.go"],
+    importpath = "example.com/gazelle-example/myapp/proto/v1/mock",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//myapp/proto/v1:go_default_library",
+        "@com_github_golang_mock//gomock:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+    ],  # keep
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":mock",
+    visibility = ["//visibility:public"],
+)

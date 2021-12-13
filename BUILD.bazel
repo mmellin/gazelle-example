@@ -1,6 +1,6 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
-# gazelle:prefix example.com/example
+# gazelle:prefix example.com/gazelle-example
 # gazelle:go_naming_convention import_alias
 # gazelle:proto default
 # gazelle:go_generate_proto true
