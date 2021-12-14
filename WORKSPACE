@@ -10,7 +10,7 @@ http_archive(
         "https://github.com/bazelbuild/rules_go/releases/download/v0.29.0/rules_go-v0.29.0.zip",
     ],
 )
-
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 http_archive(
     name = "bazel_gazelle",
     sha256 = "de69a09dc70417580aabf20a28619bb3ef60d038470c7cf8442fafcf627c21cb",
@@ -20,7 +20,7 @@ http_archive(
     ],
 )
 
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 load("//:deps.bzl", "go_dependencies")
 
@@ -29,22 +29,26 @@ go_dependencies()
 
 go_rules_dependencies()
 
-go_register_toolchains(version = "1.17.3")
+go_register_toolchains(
+    nogo = "@//:nogo_vet",
+    version = "1.17.5"
+)
 
 gazelle_dependencies()
 
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+
+bazel_skylib_workspace()
+
 #######  @com_google_protobuf package and dependencies
 
-# proto_library, cc_proto_library, and java_proto_library rules implicitly
-# depend on @com_google_protobuf for protoc and proto runtimes.
-# This statement defines the @com_google_protobuf repo.
 http_archive(
     name = "com_google_protobuf",
-    sha256 = "d0f5f605d0d656007ce6c8b5a82df3037e1d8fe8b121ed42e536f569dec16113",
-    strip_prefix = "protobuf-3.14.0",
+    sha256 = "87407cd28e7a9c95d9f61a098a53cf031109d451a7763e7dd1253abf8b4df422",
+    strip_prefix = "protobuf-3.19.1",
     urls = [
-        "https://mirror.bazel.build/github.com/protocolbuffers/protobuf/archive/v3.14.0.tar.gz",
-        "https://github.com/protocolbuffers/protobuf/archive/v3.14.0.tar.gz",
+        "https://mirror.bazel.build/github.com/protocolbuffers/protobuf/archive/v3.19.1.tar.gz",
+        "https://github.com/protocolbuffers/protobuf/archive/v3.19.1.tar.gz",
     ],
 )
 
