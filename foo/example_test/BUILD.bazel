@@ -1,0 +1,11 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "example_test_test",
+    srcs = ["example_test.go"],
+    deps = [
+        "//foo:example",
+        "//foo/mock:go_default_library",
+        "@com_github_golang_mock//gomock:go_default_library",
+    ],
+)

@@ -1,0 +1,56 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+load("@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2:defs.bzl", "protoc_gen_openapiv2")
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "example_proto",
+    srcs = [
+        "example.proto",
+    ],
+    deps = [
+        "@com_google_protobuf//:any_proto",
+        "@go_googleapis//google/api:annotations_proto",
+    ],
+)
+
+# in the example below the compilers are required to add
+# gRPC client and server generation.
+# The gRPC gateway compiler is added for rest api generation.
+
+go_proto_library(
+    name = "example_go_proto",
+    compilers = [
+        "@io_bazel_rules_go//proto:go_grpc",
+        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-grpc-gateway:go_gen_grpc_gateway",
+    ],
+    importpath = "example.com/gazelle-example/foo/example",
+    proto = ":example_proto",
+    visibility = ["//visibility:public"],
+    deps = ["@go_googleapis//google/api:annotations_go_proto"],
+)
+
+protoc_gen_openapiv2(
+    name = "example_proto_gen_swagger",
+    proto = ":example_proto",
+)  # keep
+
+protoc_gen_openapiv2(
+    name = "example_proto_gen_swagger_merged",
+    proto = ":example_proto",
+    single_output = True,  # Outputs a single swagger.json file.
+)  # keep
+
+go_library(
+    name = "example",
+    embed = [":example_go_proto"],
+    importpath = "example.com/gazelle-example/foo/example",
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":example",
+    visibility = ["//visibility:public"],
+)
